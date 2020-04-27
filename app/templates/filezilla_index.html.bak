@@ -22,19 +22,14 @@
 
 <table border="1">
     <tr>
-        <th>index</th>
-        <th>filename</th>
-        <th>size</th>
-        <th>mtime</th>
-        <th>operation</th>
+        <th>Index</th>
+        <th>File</th>
+        <th>Operation</th>
     </tr>
     {% for file in filelist %}
         <tr>
             <td>{{ loop.index }}</td>
-            <td>&nbsp;{{ file.name }}&nbsp;</td>
-            <td>&nbsp;{{ file.stat.st_size }}&nbsp;</td>
-            <!-- <td>&nbsp;{{ file.stat.st_mtime }}&nbsp;</td> -->
-            <td>&nbsp;{{ file.stat.st_mtime|timeformat }}&nbsp;</td>
+            <td>&nbsp;{{ file }}&nbsp;</td>
             <td>
                 &nbsp;
                 <a href="{{ url_for('blue_filezilla.cmd_view', filename=file) }}">view</a>&nbsp;

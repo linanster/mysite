@@ -12,12 +12,19 @@ blue_filezilla = Blueprint('blue_filezilla', __name__, url_prefix='/filezilla')
 @blue_filezilla.route('/index')
 def vf_index():
     invisibles = ['.keep', '.gitkeep']
-    filelist = os.listdir(filezillafolder)
+    filenamelist = os.listdir(filezillafolder)
+    filelist = list()
     for filename in invisibles:
-        if filename in filelist:
-            filelist.remove(filename)
+        if filename in filenamelist:
+            filenamelist.remove(filename)
         else:
             continue
+    for filename in filenamelist:
+        filepath = os.path.join(filezillafolder, filename)
+        filestat = os.stat(filepath)
+        item = {'name':filename, 'stat':filestat}
+        filelist.append(item)
+    # return render_template('filezilla_index.html', filelist=filenamelist)
     return render_template('filezilla_index.html', filelist=filelist)
 
 @blue_filezilla.route('/<string:filename>', methods=['GET'])
