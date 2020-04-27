@@ -1,0 +1,48 @@
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<script type="text/javascript">
+    function del() {
+        var msg = "Confirm to delete?";
+        if (confirm(msg) == true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+
+<title>MySite</title>
+<h1>My Filezella</h1>
+<form action={{ url_for('blue_filemgr.cmd_upload') }} method="post" enctype=multipart/form-data>
+    <input type=file name=file>
+    <input type=submit value=Upload>
+</form>
+<br>
+
+<table border="1">
+    <tr>
+        <th>Index</th>
+        <th>File</th>
+        <th>Operation</th>
+    </tr>
+    {% for file in filelist %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>&nbsp;{{ file }}&nbsp;</td>
+            <td>
+                &nbsp;
+                <a href="{{ url_for('blue_filemgr.cmd_view', filename=file) }}">view</a>&nbsp;
+                <a href="{{ url_for('blue_filemgr.cmd_download', filename=file) }}">download</a>&nbsp; &nbsp;
+                {% if file not in forbidden_del %}
+                    <a href="{{ url_for('blue_filemgr.cmd_delete', filename=file) }}" style="color: orangered"
+                       οnclick="javascript: return del()">delete</a>&nbsp;
+                {% endif %}
+            </td>
+        </tr>
+    {% else %}
+    {% endfor %}
+</table>
+<a href="{{ url_for('blue_filemgr.vf_index') }}">refresh</a>
+</html>
+

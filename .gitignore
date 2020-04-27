@@ -1,3 +1,17 @@
+# Customize
+**/*.swp
+log/*
+filezilla/*
+filemgr/*
+scripts/ignore/*
+
+!log/.gitkeep
+!filezilla/.gitkeep
+!filemgr/.gitkeep
+!scripts/ignore/.gitkeep
+
+#
+#
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
