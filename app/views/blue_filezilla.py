@@ -2,53 +2,53 @@ from flask import Blueprint, request, render_template, flash, redirect, url_for,
 from werkzeug.utils import secure_filename
 import os
 
-from app.myglobals import filemgrfolder
+from app.myglobals import filezillafolder
 
-blue_filemgr = Blueprint('blue_filemgr', __name__, url_prefix='/filemgr')
+blue_filezilla = Blueprint('blue_filezilla', __name__, url_prefix='/filezilla')
 
 
 
-@blue_filemgr.route('/')
-@blue_filemgr.route('/index')
+@blue_filezilla.route('/')
+@blue_filezilla.route('/index')
 def vf_index():
     invisibles = ['.keep', '.gitkeep']
-    filelist = os.listdir(filemgrfolder)
+    filelist = os.listdir(filezillafolder)
     for filename in invisibles:
         if filename in filelist:
             filelist.remove(filename)
         else:
             continue
-    return render_template('filemgr_index.html', filelist=filelist)
+    return render_template('filezilla_index.html', filelist=filelist)
 
-@blue_filemgr.route('/download', methods=['GET'])
+@blue_filezilla.route('/download', methods=['GET'])
 def cmd_download():
     filename = request.args.get('filename')
-    return send_from_directory(filemgrfolder, filename, as_attachment=True)
+    return send_from_directory(filezillafolder, filename, as_attachment=True)
 
 
-@blue_filemgr.route('/view', methods=['GET'])
+@blue_filezilla.route('/view', methods=['GET'])
 def cmd_view():
     filename = request.args.get('filename')
-    return send_from_directory(filemgrfolder, filename, as_attachment=False)
+    return send_from_directory(filezillafolder, filename, as_attachment=False)
 
-@blue_filemgr.route('/delete', methods=['GET'])
+@blue_filezilla.route('/delete', methods=['GET'])
 def cmd_delete():
     filename = request.args.get('filename')
-    sourcefile = os.path.join(filemgrfolder, filename)
+    sourcefile = os.path.join(filezillafolder, filename)
     os.remove(sourcefile)
-    return redirect(url_for('blue_filemgr.vf_index'))
+    return redirect(url_for('blue_filezilla.vf_index'))
 
-@blue_filemgr.route('/upload', methods=['POST'])
+@blue_filezilla.route('/upload', methods=['POST'])
 def cmd_upload():
     file = request.files['file']
     if file.filename == '':
         flash('请选择文件!')
     if file:
         filename = secure_filename(file.filename)
-        destfile = os.path.join(filemgrfolder, filename)
+        destfile = os.path.join(filezillafolder, filename)
         file.save(destfile)
         # os.chmod(destfile, stat.S_IROTH)
         # os.chmod(destfile, 0o777)
         flash('文件导入成功!')
-    return redirect(url_for('blue_filemgr.vf_index'))
+    return redirect(url_for('blue_filezilla.vf_index'))
 
