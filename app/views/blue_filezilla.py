@@ -20,6 +20,10 @@ def vf_index():
             continue
     return render_template('filezilla_index.html', filelist=filelist)
 
+@blue_filezilla.route('/<string:filename>', methods=['GET'])
+def vf_view(filename):
+    return send_from_directory(filezillafolder, filename, as_attachment=False)
+
 @blue_filezilla.route('/download', methods=['GET'])
 def cmd_download():
     filename = request.args.get('filename')
@@ -42,13 +46,13 @@ def cmd_delete():
 def cmd_upload():
     file = request.files['file']
     if file.filename == '':
-        flash('请选择文件!')
+        flash('no file selected!')
     if file:
         filename = secure_filename(file.filename)
         destfile = os.path.join(filezillafolder, filename)
         file.save(destfile)
         # os.chmod(destfile, stat.S_IROTH)
         # os.chmod(destfile, 0o777)
-        flash('文件导入成功!')
+        flash('file upload success!')
     return redirect(url_for('blue_filezilla.vf_index'))
 
