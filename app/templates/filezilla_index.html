@@ -37,10 +37,10 @@
             <td>&nbsp;{{ file.stat.st_mtime|timeformat }}&nbsp;</td>
             <td>
                 &nbsp;
-                <a href="{{ url_for('blue_filezilla.cmd_view', filename=file) }}">view</a>&nbsp;
-                <a href="{{ url_for('blue_filezilla.cmd_download', filename=file) }}">download</a>&nbsp; &nbsp;
+                <a href="{{ url_for('blue_filezilla.cmd_view', filename=file.name) }}">view</a>&nbsp;
+                <a href="{{ url_for('blue_filezilla.cmd_download', filename=file.name) }}">download</a>&nbsp; &nbsp;
                 {% if file not in forbidden_del %}
-                    <a href="{{ url_for('blue_filezilla.cmd_delete', filename=file) }}" style="color: orangered"
+                    <a href="{{ url_for('blue_filezilla.cmd_delete', filename=file.name) }}" style="color: orangered"
                        οnclick="javascript: return del()">delete</a>&nbsp;
                 {% endif %}
             </td>
